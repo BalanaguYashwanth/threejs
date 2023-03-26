@@ -72,16 +72,26 @@ orbit.update();
 const followText = document.getElementById("follow-text");
 const canvas = document.querySelector("canvas");
 const boxPosition = new THREE.Vector3();
+
 let boxPositionOffset = new THREE.Vector3();
+const Y_Axis = new THREE.Vector3(0,1,0)
 
 //GAMELOOP
-
 const clock = new THREE.Clock();
 let gameLoop = () => {
-  // console.log('model--->', model)
-  // MOVE TEXT
   if (model) {
+
+    boxPositionOffset.copy(model.position);
+    boxPositionOffset.sub(camera.position);
+    boxPositionOffset.normalize();
+    boxPositionOffset.applyAxisAngle(Y_Axis, - Math.PI/2);
+    boxPositionOffset.multiplyScalar(0.5);
+    boxPositionOffset.y = 0.00;
+    boxPositionOffset.x = 0.06;
+
+
     boxPosition.setFromMatrixPosition(model.matrixWorld);
+    boxPosition.add(boxPositionOffset);
     boxPosition.add(boxPositionOffset);
     boxPosition.project(camera);
 
